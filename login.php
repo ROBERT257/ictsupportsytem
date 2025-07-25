@@ -1,76 +1,136 @@
+<?php
+session_start();
+require 'db.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $phone_number = $_POST['phone_number'];
+    $password = $_POST['password'];
+
+    // 1. Check if phone exists in staff (admins)
+    $stmt = $conn->prepare("SELECT staff_id, full_name, password, role FROM staff WHERE phone_number = ?");
+    $stmt->bind_param("s", $phone_number);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows === 1) {
+        $stmt->bind_result($staff_id, $full_name, $hashed_password, $role);
+        $stmt->fetch();
+
+        if (password_verify($password, $hashed_password)) {
+            // Admin login success
+            $_SESSION['staff_id'] = $staff_id;
+            $_SESSION['full_name'] = $full_name;
+            $_SESSION['role'] = $role; // superadmin/admin
+
+            header("Location: admin/admin_dashboard.php");
+            exit();
+        } else {
+            $error = "Invalid password.";
+        }
+    } else {
+        // 2. Check normal user
+        $stmt->close();
+        $stmt = $conn->prepare("SELECT user_id, fullname, password FROM users WHERE phone_number = ?");
+        $stmt->bind_param("s", $phone_number);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows === 1) {
+            $stmt->bind_result($user_id, $fullname, $user_password);
+            $stmt->fetch();
+
+            if (password_verify($password, $user_password)) {
+                // Normal user login success
+                $_SESSION['user_id'] = $user_id;
+                $_SESSION['fullname'] = $fullname;
+
+                header("Location: dashboard.php");
+                exit();
+            } else {
+                $error = "Invalid password.";
+            }
+        } else {
+            $error = "No account found with that phone number.";
+        }
+    }
+    $stmt->close();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User Login</title>
+    <title>Unified Login</title>
+    <link rel="stylesheet" href="css/responsive.css">
+
     <style>
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
-            background: url('images/bg_1.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
-        .login-container {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 30px 40px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+        .login-box {
+            background: white;
+            padding: 30px;
             width: 350px;
-            text-align: center;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+            border-radius: 8px;
         }
-        .login-container h2 {
+        .login-box h2 {
+            text-align: center;
             margin-bottom: 20px;
-            color: #333;
         }
         label {
-            display: block;
-            text-align: left;
-            margin-bottom: 5px;
             font-weight: bold;
-            color: #333;
+            display: block;
+            margin-top: 10px;
         }
-        input[type="text"], input[type="password"] {
+        input[type="text"],
+        input[type="password"] {
             width: 100%;
             padding: 10px;
+            margin-top: 5px;
             margin-bottom: 15px;
-            border: 1px solid #ccc;
             border-radius: 5px;
-            box-sizing: border-box;
+            border: 1px solid #ccc;
         }
         input[type="submit"] {
             width: 100%;
-            background: #007bff;
-            color: white;
             padding: 10px;
+            background: #007bff;
             border: none;
             border-radius: 5px;
+            color: white;
             font-size: 16px;
             cursor: pointer;
-            transition: background 0.3s ease-in-out;
         }
         input[type="submit"]:hover {
             background: #0056b3;
         }
+        .error {
+            color: red;
+            text-align: center;
+            margin-bottom: 10px;
+        }
         p {
+            text-align: center;
             margin-top: 15px;
         }
-        p a {
+        a {
             color: #007bff;
             text-decoration: none;
-        }
-        p a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
+    <div class="login-box">
         <h2>Login</h2>
-        <form method="POST" action="login_user.php">
+        <?php if (!empty($error)) echo "<p class='error'>$error</p>"; ?>
+        <form method="POST">
             <label>Phone Number:</label>
             <input type="text" name="phone_number" required>
 

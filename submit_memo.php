@@ -26,6 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 <head>
     <title>Submit Memo</title>
+    <link rel="stylesheet" href="css/responsive.css">
+
     <style>
         body { font-family: Arial, sans-serif; background: #f4f4f4; margin:0; padding:0; }
         .container { max-width: 600px; margin: 50px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0px 0px 8px rgba(0,0,0,0.2); }

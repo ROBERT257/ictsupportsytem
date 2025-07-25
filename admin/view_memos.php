@@ -14,6 +14,8 @@ $result = $conn->query($sql);
 <html>
 <head>
     <title>View Memos</title>
+    <link rel="stylesheet" href="../css/responsive.css">
+
     <style>
         body { font-family: Arial; background: #f4f4f4; margin: 0; padding: 20px; }
         .container { max-width: 900px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; }

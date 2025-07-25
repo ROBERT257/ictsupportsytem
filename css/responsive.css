@@ -1,0 +1,118 @@
+/* ===== Global Reset ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== Body ===== */
+body {
+    font-family: Arial, sans-serif;
+    background-size: cover;
+    background-attachment: fixed;
+    line-height: 1.5;
+}
+
+/* ===== Containers ===== */
+.container, .login-box, .login-container {
+    width: 95%;
+    max-width: 1100px;
+    margin: auto;
+    padding: 15px;
+}
+
+/* ===== Buttons ===== */
+button, input[type=submit], a.button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+    display: inline-block;
+}
+button:hover, input[type=submit]:hover, a.button:hover {
+    opacity: 0.85;
+}
+
+/* ===== Tables ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    word-break: break-word;
+}
+
+/* ===== Mobile Table Scroll ===== */
+@media screen and (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+        width: 100%;
+    }
+    thead tr {
+        display: none;
+    }
+    tr {
+        margin-bottom: 10px;
+        border-bottom: 2px solid #eee;
+        padding: 8px;
+    }
+    td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+    }
+    td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+    }
+}
+
+/* ===== Forms ===== */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+input[type=text], input[type=password], input[type=email], select, textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* ===== Header & Footer ===== */
+.header, .footer {
+    padding: 15px;
+    text-align: center;
+}
+.header h1, .footer {
+    font-size: 18px;
+}
+
+/* ===== Dashboard Buttons Grid ===== */
+ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+}
+
+/* ===== Mobile Typography ===== */
+@media (max-width: 480px) {
+    h1, h2, h3 { font-size: 20px; }
+    label { font-size: 14px; }
+    input, select, textarea, button { font-size: 14px; }
+}

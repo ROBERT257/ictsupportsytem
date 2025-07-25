@@ -43,6 +43,8 @@ $prefill_issue_id = isset($_GET['issue_id']) ? intval($_GET['issue_id']) : "";
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="css/responsive.css">
+
     <title>Submit Feedback</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 30px; background: #f4f4f4; }

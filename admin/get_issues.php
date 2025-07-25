@@ -22,6 +22,8 @@ $result = $stmt->get_result();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Support Issues</title>
+    <link rel="stylesheet" href="../css/responsive.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -52,16 +54,13 @@ $result = $stmt->get_result();
             font-size: 14px;
             transition: 0.3s;
         }
-        a.back-btn:hover {
-            background: #2980b9;
-        }
+        a.back-btn:hover { background: #2980b9; }
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
             border-radius: 8px;
             overflow: hidden;
-            table-layout: fixed;
         }
         th, td {
             padding: 12px;
@@ -69,27 +68,13 @@ $result = $stmt->get_result();
             font-size: 14px;
             word-wrap: break-word;
         }
-        th {
-            background: #2c3e50;
-            color: white;
-        }
-        tr:hover {
-            background: #f9f9f9;
-        }
-        .badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            color: white;
-        }
+        th { background: #2c3e50; color: white; }
+        tr:hover { background: #f9f9f9; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; color: white; }
         .pending { background: #f39c12; }
         .in-progress { background: #3498db; }
         .resolved { background: #27ae60; }
-        form {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
+        form { display: flex; gap: 5px; flex-wrap: wrap; }
         form select, form input[type=text] {
             padding: 5px;
             font-size: 13px;
@@ -105,8 +90,25 @@ $result = $stmt->get_result();
             cursor: pointer;
             transition: 0.3s;
         }
-        form input[type=submit]:hover {
-            background: #219150;
+        form input[type=submit]:hover { background: #219150; }
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr { display: block; width: 100%; }
+            tr { margin-bottom: 15px; }
+            td { 
+                text-align: right; 
+                padding-left: 50%; 
+                position: relative; 
+            }
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 0;
+                width: 50%;
+                padding-left: 15px;
+                font-weight: bold;
+                text-align: left;
+            }
+            th { display: none; }
         }
     </style>
 </head>
@@ -116,47 +118,51 @@ $result = $stmt->get_result();
         <a href="admin_dashboard.php" class="back-btn">← Back to Dashboard</a>
 
         <table>
-            <tr>
-                <th style="width:5%;">ID</th>
-                <th style="width:10%;">User ID</th>
-                <th style="width:15%;">Issue Type</th>
-                <th style="width:15%;">Sub-Category</th>
-                <th style="width:20%;">Description</th>
-                <th style="width:10%;">Status</th>
-                <th style="width:10%;">Assigned To</th>
-                <th style="width:15%;">Submitted At</th>
-                <th style="width:20%;">Actions</th>
-            </tr>
-            <?php while ($row = $result->fetch_assoc()): ?>
-            <tr>
-                <td><?= htmlspecialchars($row['id']) ?></td>
-                <td><?= htmlspecialchars($row['user_id']) ?></td>
-                <td><?= htmlspecialchars($row['issue_type']) ?></td>
-                <td><?= htmlspecialchars($row['sub_category']) ?></td>
-                <td><?= htmlspecialchars($row['description']) ?></td>
-                <td>
-                    <?php 
-                        $status = strtolower($row['status']);
-                        echo "<span class='badge ".($status=="pending"?"pending":($status=="in progress"?"in-progress":"resolved"))."'>"
-                             .htmlspecialchars($row['status'])."</span>";
-                    ?>
-                </td>
-                <td><?= htmlspecialchars($row['assigned_to']) ?></td>
-                <td><?= date("Y-m-d H:i", strtotime($row['submitted_at'])) ?></td>
-                <td>
-                    <form action="update_issue.php" method="POST">
-                        <input type="hidden" name="issue_id" value="<?= $row['id'] ?>">
-                        <select name="status">
-                            <option value="Pending" <?= $row['status']=="Pending"?"selected":"" ?>>Pending</option>
-                            <option value="In Progress" <?= $row['status']=="In Progress"?"selected":"" ?>>In Progress</option>
-                            <option value="Resolved" <?= $row['status']=="Resolved"?"selected":"" ?>>Resolved</option>
-                        </select>
-                        <input type="text" name="assigned_to" placeholder="Staff Name" value="<?= htmlspecialchars($row['assigned_to']) ?>">
-                        <input type="submit" value="Update">
-                    </form>
-                </td>
-            </tr>
-            <?php endwhile; ?>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User ID</th>
+                    <th>Issue Type</th>
+                    <th>Sub-Category</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Assigned To</th>
+                    <th>Submitted At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($row = $result->fetch_assoc()): ?>
+                <tr>
+                    <td data-label="ID"><?= htmlspecialchars($row['id'] ?? '', ENT_QUOTES, 'UTF-8') ?></td>
+                    <td data-label="User ID"><?= htmlspecialchars($row['user_id'] ?? '', ENT_QUOTES, 'UTF-8') ?></td>
+                    <td data-label="Issue Type"><?= htmlspecialchars($row['issue_type'] ?? '', ENT_QUOTES, 'UTF-8') ?></td>
+                    <td data-label="Sub-Category"><?= htmlspecialchars($row['sub_category'] ?? '', ENT_QUOTES, 'UTF-8') ?></td>
+                    <td data-label="Description"><?= htmlspecialchars($row['description'] ?? '', ENT_QUOTES, 'UTF-8') ?></td>
+                    <td data-label="Status">
+                        <?php 
+                            $status = strtolower($row['status'] ?? '');
+                            $class = ($status=="pending"?"pending":($status=="in progress"?"in-progress":"resolved"));
+                            echo "<span class='badge $class'>".htmlspecialchars($row['status'] ?? '', ENT_QUOTES, 'UTF-8')."</span>";
+                        ?>
+                    </td>
+                    <td data-label="Assigned To"><?= htmlspecialchars($row['assigned_to'] ?? '', ENT_QUOTES, 'UTF-8') ?></td>
+                    <td data-label="Submitted At"><?= htmlspecialchars(date("Y-m-d H:i", strtotime($row['submitted_at'] ?? '')), ENT_QUOTES, 'UTF-8') ?></td>
+                    <td data-label="Actions">
+                        <form action="update_issue.php" method="POST">
+                            <input type="hidden" name="issue_id" value="<?= htmlspecialchars($row['id'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                            <select name="status">
+                                <option value="Pending" <?= ($row['status']=="Pending"?"selected":"") ?>>Pending</option>
+                                <option value="In Progress" <?= ($row['status']=="In Progress"?"selected":"") ?>>In Progress</option>
+                                <option value="Resolved" <?= ($row['status']=="Resolved"?"selected":"") ?>>Resolved</option>
+                            </select>
+                            <input type="text" name="assigned_to" placeholder="Staff Name" value="<?= htmlspecialchars($row['assigned_to'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                            <input type="submit" value="Update">
+                        </form>
+                    </td>
+                </tr>
+                <?php endwhile; ?>
+            </tbody>
         </table>
     </div>
 </body>

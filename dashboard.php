@@ -37,6 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['general_feedback'])) 
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>User Dashboard - ICT Support</title>
   <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/responsive.css">
+
   <style>
     body { font-family: Arial, sans-serif; margin: 0; background: #f4f6f8; }
     header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #38b6ff; color: #fff; }

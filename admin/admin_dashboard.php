@@ -3,11 +3,12 @@ session_start();
 
 // Restrict access to admins only
 if (!isset($_SESSION['staff_id'])) {
-    header("Location: admin_login.php");
+    header("Location: ../login.php"); // redirect to unified login
     exit();
 }
 
 $full_name = $_SESSION['full_name'];
+$role = isset($_SESSION['role']) ? $_SESSION['role'] : 'admin';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,6 +16,8 @@ $full_name = $_SESSION['full_name'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - ICT Support System</title>
+    <link rel="stylesheet" href="../css/responsive.css">
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -97,12 +100,17 @@ $full_name = $_SESSION['full_name'];
     </div>
 
     <div class="container">
-        <h2>Welcome, <?php echo htmlspecialchars($full_name); ?> (Admin)</h2>
+        <h2>Welcome, <?php echo htmlspecialchars($full_name); ?> (<?php echo ucfirst($role); ?>)</h2>
         <ul>
             <li><a href="get_issues.php" class="button">📄 View Support Issues</a></li>
             <li><a href="view_feedback.php" class="button">💬 View Feedback</a></li>
             <li><a href="../inventory/view_items.php" class="button">📦 Manage Inventory</a></li>
             <li><a href="view_memos.php" class="button">📑 View Office Memos</a></li>
+
+            <?php if ($role === 'superadmin') { ?>
+                <li><a href="add_admin.php" class="button">👤 Add New Admin</a></li>
+            <?php } ?>
+
             <li><a href="logout.php" class="button logout">🚪 Logout</a></li>
         </ul>
     </div>

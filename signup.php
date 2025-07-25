@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign Up</title>
+    <link rel="stylesheet" href="css/responsive.css">
+
     <style>
         body {
             margin: 0;

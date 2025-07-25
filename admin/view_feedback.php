@@ -24,6 +24,8 @@ $result = $conn->query($query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Feedback</title>
+    <link rel="stylesheet" href="../css/responsive.css">
+
     <style>
         body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 20px; }
         table { width: 100%; border-collapse: collapse; background: #fff; }
