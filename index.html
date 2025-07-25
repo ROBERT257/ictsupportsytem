@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ICT E-Support System</title>
+  <link rel="stylesheet" href="index.css" />
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+    }
+
+    /* --- Background Slideshow --- */
+    .background {
+      height: 100%;
+      width: 100%;
+      background-size: cover;
+      background-position: center;
+      animation: slideshow 60s infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    @keyframes slideshow {
+      0%   { background-image: url('images/ICT 1.jpg'); }
+      10%  { background-image: url('images/ICT 2.jpg'); }
+      20%  { background-image: url('images/ICT 3.jpg'); }
+      30%  { background-image: url('images/ICT 4.jpeg'); }
+      40%  { background-image: url('images/ICT 5.jpeg'); }
+      50%  { background-image: url('images/ICT 6.jpeg'); }
+      60%  { background-image: url('images/ICT 7.jpeg'); }
+      70%  { background-image: url('images/ICT 8.jpg'); }
+      80%  { background-image: url('images/ICT 9.jpg'); }
+      90%  { background-image: url('images/ICT 10.jpg'); }
+      100% { background-image: url('images/ICT Projects.jpg'); }
+    }
+
+    .header {
+      padding: 20px;
+      text-align: center;
+      color: black;
+      font-size: 15px;
+      font-weight: bold;
+      background-color: #38b6ff;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 2rem 3rem;
+      width: 320px;
+      text-align: center;
+      
+      /* Glass effect */
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+
+      /* Modern shadow */
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    }
+
+    .section p {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #ffffff; /* white for better visibility */
+      margin-bottom: 1rem;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 20px;
+      width: 100%;
+      text-align: center;
+      background: #38b6ff;
+      color: white;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 5px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .btn:hover {
+      background: #2a94d6;
+      transform: scale(1.05);
+    }
+
+    .site-branding-logo img {
+      height: 60px;
+      display: block;
+      margin: 10px auto;
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="site-branding-logo">
+    <img class="logo-site" src="images/sdps.png" alt="System Logo" />
+  </a>
+
+  <div class="header">
+    <h1>ICT E-SUPPORT SYSTEM</h1>
+  </div>
+
+  <div class="background">
+    <div class="container">
+      <div class="section">
+        <p>Don't have an account?</p>
+        <a href="signup.php" class="btn">Create Account</a>
+      </div>
+      <div class="section">
+        <p>Already have an account?</p>
+        <a href="login.php" class="btn">Log In</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
